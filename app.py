@@ -185,7 +185,7 @@ with st.sidebar:
             - `"Give me the calculation for TCV"` → Uses **Dax**
             - `"What does TCV means ?"` → Uses **Dictionary**
             - `"Give the table names present"` → Uses **Table**
-            - `"Analyze the data and identify all possible reasons why the TCV in February 2024 is higher compared to other months. Consider factors such as team performance, deal size, client activity, or any noticeable trends or anomalies."` → Uses **Data**
+            - `"From the data , provide a detailed analysis of the deals contributing to the spikes in TCV, especially focusing on why TCV was high in February 2024. Highlight the key factors, Deals and responsible for these changes"` → Uses **Data**
             """)
 
 
