@@ -45,20 +45,21 @@ st.markdown(
     """
     <style>
         [data-testid="stSidebar"] {
-            background-color: #99F6F6;  /* Dark background */
-            color: black;  /* White text */
+            background: linear-gradient(to bottom, #0E425A, #36EAEC);
+            color: white;
         }
         [data-testid="stSidebar"] h1, 
         [data-testid="stSidebar"] h2, 
         [data-testid="stSidebar"] h3, 
         [data-testid="stSidebar"] p {
-            color: black;  /* Ensures all text is white */
+            color: white;
         }
     </style>
     """,
     unsafe_allow_html=True
 )
 with st.sidebar:
+    st.image(r"C:\Users\LokeshRamesh\Documents\co_10 training\AI\Linkedin Chatbot\Blend_logo_203372170731290036.png",width=100)
     API = os.getenv("ACCESS_KEY")
     Secure_Key = os.getenv("SECRET_ACCESS_KEY")
     SNOWFLAKE_USER_input = os.getenv("SNOWFLAKE_USER_input")
@@ -157,8 +158,8 @@ with st.sidebar:
 
     Snowflack_data = pd.read_sql(query, conn)
 
-    json_path = r"DataModelSchema.json"
-    excel_path = r"Data DictionaryChat bot.xlsx"
+    json_path = r"C:\Users\LokeshRamesh\Documents\co_10 training\AI\Linkedin Chatbot\DataModelSchema.json"
+    excel_path = r"C:\Users\LokeshRamesh\Documents\co_10 training\AI\Linkedin Chatbot\Data DictionaryChat bot.xlsx"
 
     json_data = pd.read_json(json_path, encoding='utf-16')
     df = pd.DataFrame()
@@ -192,22 +193,27 @@ with st.sidebar:
 
     # Initialize session state for chat history
 
-    st.sidebar.title("💡 How to Chat with the Bot")
+    st.sidebar.title("🤖💬 How to Chat with the Bot")
     st.sidebar.write("""
-    ✅ Use **keywords** in your query to select the right data source:
-    - **DAX**: Questions about calculations, formulas, or Power BI measures.
-    - **TABLE**: Structure of Power BI tables.
-    - **DATA**: Queries related to numbers and stored data.
-    - **DICTIONARY**: Definitions of Power BI terms.
-    - **GUIDE**: User Manual or User Guide.
+            ### 🔍 Query Guide
 
-    📌 **Example Queries:**
-    - `"Give me the % of deals based on each stage from the data"` → Uses **Data**
-    - `"Give me the calculation for TCV"` → Uses **Dax**
-    - `"What does TCV means ?"` → Uses **Dictionary**
-    - `"Give the table names present"` → Uses **Table**
-    - `"Analyze the data and identify all possible reasons why the TCV in February 2024 is higher compared to other months. Consider factors such as team performance, deal size, client activity, or any noticeable trends or anomalies."` → Uses **Data**
-    """)
+            Use **specific keywords** in your question to help the assistant identify the appropriate data source:
+
+            - **DAX** → For questions about calculations, formulas, or Power BI measures  
+            - **TABLE** → For information on the structure or names of Power BI tables  
+            - **DATA** → For exploring metrics, trends, values, and data-driven insights  
+            - **DICTIONARY** → For definitions and explanations of business or Power BI terms  
+            - **GUIDE** → For user instructions or help documentation  
+
+            ### 📌 Example Questions
+
+            - `"What is the percentage of deals by stage from data ?"` → **DATA**  
+            - `"How is TCV calculated ?"` → **DAX**  
+            - `"What does TCV Means for?"` → **DICTIONARY**  
+            - `"List all available table names"` → **TABLE**  
+            - `"Why is TCV higher in February 2024 compared to other months in the data?"`  
+            _(e.g., due to team performance, deal size, client activity, or trends)_ → **DATA**
+            """)
 
 
     st.title("Power BI Smart Bot")
@@ -223,6 +229,7 @@ with st.sidebar:
         agent_mapping = {
             "DAX": DAX,
             "CALCULATION": DAX,
+            "CALCULATED": DAX,
             "MEASURE": DAX,
             "TABLE": Table,
             "POWER BI TABLE": Table,
@@ -269,6 +276,28 @@ with st.sidebar:
                         return agent_mapping[keyword]
 
             return None  # No strong match found
+        st.markdown(
+    """
+    <style>
+        /* Target the first button on the page (adjust nth-of-type if needed) */
+        div[data-testid="stButton"] > button {
+            background-color: #0E425A;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.5em 1em;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        div[data-testid="stButton"] > button:hover {
+            background-color: #36EAEC;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
         if st.button('Clear Chat'):
             st.session_state.messages = []
 
@@ -315,7 +344,8 @@ with st.sidebar:
         with response_container:
             for message in st.session_state.messages:
                 with st.chat_message(message["role"]):
-                    st.markdown(f'<div style="font-size: small;">{message["content"]}</div>', unsafe_allow_html=True)
+                    st.markdown(f'<div style="font-size: small; color: white;">{message["content"]}</div>', unsafe_allow_html=True)
+    
 
 with st.container(border=True):
     power_bi_url = "https://app.powerbi.com/reportEmbed?reportId=b6437c22-5b36-4b31-8a98-7b892c5a6511&autoAuth=true&ctid=b1aae949-a5ef-4815-b7af-f7c4aa546b28"
